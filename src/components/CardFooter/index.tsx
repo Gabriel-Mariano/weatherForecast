@@ -7,7 +7,7 @@ import { styles } from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const CardFooter:React.FC<ICardFooterProps> = props => {
-    const { description, media, match } = props;
+    const { description, temp_min, temp_max, match } = props;
     return (
         <>
             <View>
@@ -15,7 +15,7 @@ const CardFooter:React.FC<ICardFooterProps> = props => {
                     {description}
                 </Text>
                 <Text style={styles.media}>
-                    {media}
+                    {temp_min}° - {temp_max}°
                 </Text>
             </View>
             <View>

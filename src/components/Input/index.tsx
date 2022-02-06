@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/Fontisto';
 
 const Input: React.FC<IInputComponentProps> = props => {
     
-    const { icon, ...inputProps } = props;
+    const { icon, onPress, ...inputProps } = props;
 
     return (
         <View style={styles.container}>
@@ -21,7 +21,7 @@ const Input: React.FC<IInputComponentProps> = props => {
                 style={styles.input}
             />
             <Pressable 
-                onPress={()=> { } }
+                onPress={onPress}
                 style={styles.rightContent}
             >
                 <Icon 

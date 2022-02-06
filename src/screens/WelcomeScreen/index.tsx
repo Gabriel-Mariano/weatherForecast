@@ -1,11 +1,10 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, Image, Pressable } from 'react-native';
+import { styles } from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { StackProps } from '../../routes/types';
-
-import { styles } from './styles';
 
 import Logo from '../../assets/logo.png';
 

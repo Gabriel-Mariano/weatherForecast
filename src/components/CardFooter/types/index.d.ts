@@ -1,6 +1,7 @@
 interface ICardFooterProps {
     description?:string;
-    media?:string;
+    temp_min?:number;
+    temp_max?:number;
     match?:boolean;
 }
 

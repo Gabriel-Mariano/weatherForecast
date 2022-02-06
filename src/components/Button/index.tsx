@@ -4,11 +4,11 @@ import { styles } from './styles';
 import { IButtonProps } from './types';
 
 const Button:React.FC<IButtonProps> = props => {
-    const { title, ...buttonProps } = props;
+    const { title, onPress, ...buttonProps } = props;
 
     return (
         <Pressable
-            onPress={()=> { } }
+            onPress={onPress}
         >
             <Text style={styles.title}>
                 {title}

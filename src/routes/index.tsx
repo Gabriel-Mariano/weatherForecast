@@ -13,7 +13,7 @@ const Routes = () => {
             headerShown:false,
         }}>
             <Screen name="Welcome" component={WelcomeScreen} />
-            {/* <Screen name="Home" component={HomeScreen} /> */}
+            <Screen name="Home" component={HomeScreen} />
         </Navigator>
     );
 }

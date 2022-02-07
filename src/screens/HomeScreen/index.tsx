@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Keyboard, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
 import { fetchGooglePlace } from '../../services/googlePlaceApi';
-import { Alert } from 'react-native';
 import { styles } from './styles';
 
 import Header from '../../components/Header';
 import Card from '../../components/Card';
 import uuid from 'react-native-uuid';
 
-
 const HomeScreen = () => {
     const [address, setAddress] = useState('');
     const [location, setLocation] = useState([] as any);
-    const [data, setData] = useState([]); 
 
     const getAddress = async ()=> {
         if(!address){
@@ -46,6 +43,8 @@ const HomeScreen = () => {
         const object = changeData.reduce( (obj:any, item:any) => item, {} );
 
         setLocation([...location,object]);
+        setAddress('');
+        Keyboard.dismiss();
     }
 
     const failedResponse = () => {
@@ -54,10 +53,6 @@ const HomeScreen = () => {
 
     const onChange = (text:string) => {
         setAddress(text);
-    }
-
-    const add = () => {
-        
     }
 
     return (

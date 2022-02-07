@@ -1,14 +1,15 @@
 import React from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text, Alert, Pressable } from 'react-native';
 import { ICardProps } from './types';
 import { styles } from './styles';
 
-import moment from 'moment';
+import moment, { locale } from 'moment';
 import Button from '../Button';
-import Icon from 'react-native-vector-icons/Ionicons'
-import { COLORS } from '../../themes/colors';
 import CardFooter from '../CardFooter';
 import { fetchOpenWeather } from '../../services/openWeatherApi';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackProps } from '../../routes/types';
 
 const Card:React.FC<ICardProps> = props => {
     const { 
@@ -27,7 +28,9 @@ const Card:React.FC<ICardProps> = props => {
         setLocation
     } = props;
 
-    const add = async(id:string) => {
+    const navigation = useNavigation<NativeStackNavigationProp<StackProps>>();
+
+    const add = async () => {
         const res = await fetchOpenWeather(lat,lng);
 
         res.success
@@ -36,59 +39,113 @@ const Card:React.FC<ICardProps> = props => {
     }
 
     const successResponse = (data:any, id:string) => {
-       const newData = data.list.map((item:any)=> {
 
-             return {
-                 dt:moment(item.dt_txt).format('DD-MM-YYYY'),
-                 temp:item.main.temp,
-                 temp_max:item.main.temp_max,
-                 temp_min:item.main.temp_min,
-                 description:item.weather.filter((values:any)=> values.description  )
-             }
-        });
+            const changeData = location.map((values:any)=>{
+                return values.id !== id
+                ? values
+                : {
+                    ...values, 
+                    id:id,
+                    description:data.weather[0].description,
+                    temperature:data.main.temp.toFixed(0),
+                    temp_min:data.main.temp_min.toFixed(0),
+                    temp_max:data.main.temp_max.toFixed(0),
+                    match:false,
+                    content:true,
+                }
+            });
 
-        const filterData = data.list.filter((values:any)=> {
-            const today = new Date();
-            const formatDate = moment(today).format('DD-MM-YYYY');
+    //     const newData = data.list.map((item:any)=> {
+    //         const today = new Date();
+    //         const formatDate = moment(today).locale('pt-br').format('DD-MM-YYYY');
+    //         const date = moment(item.dt_txt).locale('pt-br').format("DD-MM-YYYY");
+
+    //         if(date === formatDate){
+    //             return {
+    //                 dt:date,
+    //                 temp:item.main.temp,
+    //                 temp_max:item.main.temp_max,
+    //                 temp_min:item.main.temp_min,
+    //                 description:item.weather.filter((values:any)=> values.description  )
+    //             } 
+    //         }
+    //    });
+
+    //    const filterData = newData.filter((values:any)=> values !== undefined );
+
+    // //    const filterData = newData.filter((values:any)=> {
+    // //        const today = new Date();
+    // //        const formatDate = moment(today).format('DD-MM-YYYY');
+      
+    // //         if(values.dt === formatDate){
+    // //            return values.dt;
+    // //        }
+    // //    });
+
+    // //    const newData = data.list.map((item:any)=> {
+    // //          return {
+    // //              dt:moment(item.dt_txt).format('DD-MM-YYYY'),
+    // //              temp:item.main.temp,
+    // //              temp_max:item.main.temp_max,
+    // //              temp_min:item.main.temp_min,
+    // //              description:item.weather.filter((values:any)=> values.description  )
+    // //          }
+    // //     });
+
+    // //     const filterData = newData.filter((values:any)=> {
+    // //         const today = new Date();
+    // //         const formatDate = moment(today).format('DD-MM-YYYY');
        
-             if(values.dt === formatDate){
-                return values.dt;
-            }
-        });
+    // //          if(values.dt === formatDate){
+    // //             return values.dt;
+    // //         }
+    // //     });
 
-        const object = filterData.reduce( (obj:any, item:any) => item, {} );
+    //     const object = filterData.reduce( (obj:any, item:any) => item, {} );
        
-        const novo = location.map((values:any)=>{
-            return values.id !== id
-            ? values
-            : {
-                ...values, 
-                id:id,
-                description:object.description[0].description,
-                temperature:object.temp.toFixed(0),
-                temp_min:object.temp_min.toFixed(0),
-                temp_max:object.temp_max.toFixed(0),
-                match:false,
-                content:true,
-              }
-        });
+    //     const novo = location.map((values:any)=>{
+    //         return values.id !== id
+    //         ? values
+    //         : {
+    //             ...values, 
+    //             id:id,
+    //             description:object.description[0].description,
+    //             temperature:object.temp.toFixed(0),
+    //             temp_min:object.temp_min.toFixed(0),
+    //             temp_max:object.temp_max.toFixed(0),
+    //             match:false,
+    //             content:true,
+    //           }
+    //     });
         
-  
-        setLocation(novo);
+        setLocation(changeData);
     }
 
     const failedResponse = () => {
         Alert.alert('Opss..', 'Houve uma falha ao buscar dados, tente novamente mais tarde.')
     }
 
-    const renderCardFooter = (id:string) => {
+    const renderCardFooter = () => {
         return !content
-            ? <Button title="ADICIONAR" onPress={()=>add(id)}/>
-            : <CardFooter {...{description, temp_min, temp_max, match } } />
+            ? <Button title="ADICIONAR" onPress={add}/>
+            : <CardFooter {...{description, temp_min, temp_max, match, location, setLocation, id } } />
+    }
+
+    const goToDetails = () => {
+        return !content
+            ? null
+            : navigation.navigate('Details', {
+                id:id,
+                lat:lat,
+                lon:lng
+            }); 
     }
 
     return (
-        <View style={styles.container}>
+        <Pressable 
+            onPress={goToDetails}
+            style={styles.container}
+        >
             <View style={styles.cardHeader}>
                 <View>
                     <Text style={styles.city}>
@@ -109,9 +166,9 @@ const Card:React.FC<ICardProps> = props => {
                 </View>
             </View>
             <View style={styles.cardFooter}>
-                {renderCardFooter(id)}
+                {renderCardFooter()}
             </View>
-        </View>
+        </Pressable>
     );
 }
 

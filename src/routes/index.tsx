@@ -4,6 +4,7 @@ import { StackProps } from './types';
 
 import WelcomeScreen from '../screens/WelcomeScreen';
 import HomeScreen from '../screens/HomeScreen';
+import DetailsScreen from '../screens/DetailsScreen';
 
 const { Navigator, Screen } = createNativeStackNavigator<StackProps>();
 
@@ -14,6 +15,7 @@ const Routes = () => {
         }}>
             <Screen name="Welcome" component={WelcomeScreen} />
             <Screen name="Home" component={HomeScreen} />
+            <Screen name="Details" component={DetailsScreen} />
         </Navigator>
     );
 }

@@ -14,7 +14,7 @@ Aplicativo de previsão do tempo
  - Caso estiver em um ambiente IOS rode **yarn install** e depois entre na pasta ios e rode **pod install**
  - Com tudo instalado rode **yarn ios**
 
- # OBS Importante
+ # OBS Importante ⚠
  - Para consumir os dados é necessário substituir o arquivo .env.example para .env e colocar suas chaves de api.
 
 ## Apis que Consumi na Construção do Projeto

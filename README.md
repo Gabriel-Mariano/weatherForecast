@@ -5,8 +5,7 @@ Aplicativo de previsão do tempo
 
 **Weather Forecast** é meu app de previsão do tempo. Foi necessário a utilização de algumas apis para consumir os dados e exibi-los em tela.
 
-## Rodar o PROJETO
-
+##Rodar o PROJETO
  # Ambiente Android
  - Começe instalando as **dependências** para isso rode **yarn install**. 
  - Depois de instalado rode ** yarn android **

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Keyboard, Alert } from 'react-native';
+import { View, Text, Keyboard, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
 import { fetchGooglePlace } from '../../services/googlePlaceApi';
@@ -55,6 +55,46 @@ const HomeScreen = () => {
         setAddress(text);
     }
 
+    const renderContent = () => {
+        return !location.length 
+        ? <View style={styles.wrapper}>
+            <Text style={styles.title}>
+                Parece que você ainda não adicionou uma cidade
+            </Text>
+        
+            <Text style={styles.description}>
+                Tente adicionar uma cidade usando o botão de busca
+            </Text>
+          </View> 
+        : <FlatList
+            data={location}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item) => item.id }
+            renderItem={({ item }) => {
+                return (
+                    <Card 
+                        id={item.id}
+                        title={item.title}
+                        subtitle={item.subtitle}
+                        temperature={item.temperature}
+                        description={item.description}
+                        media={item.media}
+                        temp_min={item.temp_min}
+                        temp_max={item.temp_max}
+                        match={item.match}
+                        matchIsVisible={item.matchIsVisible}
+                        closeIsVisible={item.closeIsVisible}
+                        lat={item.lat}
+                        lng={item.lng}
+                        location={location}
+                        setLocation={setLocation}
+                        content={item.content}
+                    />
+                );
+            }}
+        />
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Header 
@@ -63,33 +103,7 @@ const HomeScreen = () => {
                 onChangeText={onChange}
             />
             <View style={styles.body}>
-                <FlatList
-                    data={location}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item) => item.id }
-                    renderItem={({ item }) => {
-                        return (
-                            <Card 
-                                id={item.id}
-                                title={item.title}
-                                subtitle={item.subtitle}
-                                temperature={item.temperature}
-                                description={item.description}
-                                media={item.media}
-                                temp_min={item.temp_min}
-                                temp_max={item.temp_max}
-                                match={item.match}
-                                matchIsVisible={item.matchIsVisible}
-                                closeIsVisible={item.closeIsVisible}
-                                lat={item.lat}
-                                lng={item.lng}
-                                location={location}
-                                setLocation={setLocation}
-                                content={item.content}
-                            />
-                        );
-                    }}
-                />
+                {renderContent()}
             </View>
         </SafeAreaView>
     );

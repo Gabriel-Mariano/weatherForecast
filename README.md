@@ -8,7 +8,7 @@ Aplicativo de previsão do tempo
 
  # Rodar em Ambiente Android
  - Começe instalando as **dependências** para isso rode **yarn install**. 
- - Depois de instalado rode ** yarn android **
+ - Depois de instalado rode **yarn android**
  
  # Rodar Ambiente IOS
  - Caso estiver em um ambiente IOS rode **yarn install** e depois entre na pasta ios e rode **pod install**

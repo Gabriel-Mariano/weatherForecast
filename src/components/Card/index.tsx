@@ -6,10 +6,13 @@ import { styles } from './styles';
 import moment, { locale } from 'moment';
 import Button from '../Button';
 import CardFooter from '../CardFooter';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import { fetchOpenWeather } from '../../services/openWeatherApi';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackProps } from '../../routes/types';
+import { COLORS } from '../../themes/colors';
 
 const Card:React.FC<ICardProps> = props => {
     const { 
@@ -22,6 +25,7 @@ const Card:React.FC<ICardProps> = props => {
         temp_max,
         match,
         matchIsVisible,
+        closeIsVisible,
         content,
         lat,
         lng,
@@ -53,6 +57,7 @@ const Card:React.FC<ICardProps> = props => {
                     temp_max:data.main.temp_max.toFixed(0),
                     match:false,
                     matchIsVisible:true,
+                    closeIsVisible:true,
                     content:true,
                 }
             });
@@ -61,64 +66,6 @@ const Card:React.FC<ICardProps> = props => {
     //         const today = new Date();
     //         const formatDate = moment(today).locale('pt-br').format('DD-MM-YYYY');
     //         const date = moment(item.dt_txt).locale('pt-br').format("DD-MM-YYYY");
-
-    //         if(date === formatDate){
-    //             return {
-    //                 dt:date,
-    //                 temp:item.main.temp,
-    //                 temp_max:item.main.temp_max,
-    //                 temp_min:item.main.temp_min,
-    //                 description:item.weather.filter((values:any)=> values.description  )
-    //             } 
-    //         }
-    //    });
-
-    //    const filterData = newData.filter((values:any)=> values !== undefined );
-
-    // //    const filterData = newData.filter((values:any)=> {
-    // //        const today = new Date();
-    // //        const formatDate = moment(today).format('DD-MM-YYYY');
-      
-    // //         if(values.dt === formatDate){
-    // //            return values.dt;
-    // //        }
-    // //    });
-
-    // //    const newData = data.list.map((item:any)=> {
-    // //          return {
-    // //              dt:moment(item.dt_txt).format('DD-MM-YYYY'),
-    // //              temp:item.main.temp,
-    // //              temp_max:item.main.temp_max,
-    // //              temp_min:item.main.temp_min,
-    // //              description:item.weather.filter((values:any)=> values.description  )
-    // //          }
-    // //     });
-
-    // //     const filterData = newData.filter((values:any)=> {
-    // //         const today = new Date();
-    // //         const formatDate = moment(today).format('DD-MM-YYYY');
-       
-    // //          if(values.dt === formatDate){
-    // //             return values.dt;
-    // //         }
-    // //     });
-
-    //     const object = filterData.reduce( (obj:any, item:any) => item, {} );
-       
-    //     const novo = location.map((values:any)=>{
-    //         return values.id !== id
-    //         ? values
-    //         : {
-    //             ...values, 
-    //             id:id,
-    //             description:object.description[0].description,
-    //             temperature:object.temp.toFixed(0),
-    //             temp_min:object.temp_min.toFixed(0),
-    //             temp_max:object.temp_max.toFixed(0),
-    //             match:false,
-    //             content:true,
-    //           }
-    //     });
         
         setLocation(changeData);
     }
@@ -153,11 +100,28 @@ const Card:React.FC<ICardProps> = props => {
             }); 
     }
 
+    const onCloseCard = () => {
+        const changeData = location.filter((values:any)=> values.id !== id )
+
+        setLocation(changeData);
+    }
+
     return (
         <Pressable 
             onPress={goToDetails}
-            style={styles.container}
-        >
+            style={[ styles.container,
+                {
+                    paddingVertical: closeIsVisible ? 4 : 15
+                }
+            ]}
+        >   
+            { closeIsVisible
+                ? <Pressable style={styles.buttonClose} onPress={onCloseCard}>
+                    <Icon name="close" size={14} color={COLORS.white}/>
+                  </Pressable>
+                : null
+            }
+            
             <View style={styles.cardHeader}>
                 <View>
                     <Text style={styles.city}>

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Alert, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
 import { fetchOpenWeatherDaily } from '../../services/openWeatherApi';
 import { styles } from './styles';
-import Header from '../../components/Header';
-import moment, { locale } from 'moment';
-import { FlatList } from 'react-native-gesture-handler';
+
 import Card from '../../components/Card';
+import Header from '../../components/Header';
+import moment from 'moment';
+import uuid from 'react-native-uuid';
 
 interface IRouteProps {
     key:string,
@@ -75,12 +77,14 @@ const DetailsScreen:React.FC = () => {
             }
 
             return {
+                id:uuid.v4(),
                 title:day,
                 subtitle:moment.unix(values.dt).format('LL'),
                 description:values.weather[0].description,
                 temperature:values.temp.day.toFixed(0),
                 temp_min:values.temp.min.toFixed(0),
                 temp_max:values.temp.max.toFixed(0),
+                
             }
         });
 

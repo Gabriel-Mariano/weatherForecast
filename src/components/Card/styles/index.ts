@@ -4,7 +4,7 @@ import { COLORS } from '../../../themes/colors';
 export const styles = StyleSheet.create({
     container:{
         width:'100%',
-        height:130,
+        height:136,
 
         backgroundColor:COLORS.white,
         borderRadius:2,
@@ -26,7 +26,14 @@ export const styles = StyleSheet.create({
     cardFooter:{
         flexDirection:'row',
         justifyContent:'space-between',
-        marginTop:13
+        marginTop:5,
+    },
+    buttonClose:{
+        padding:2,
+        backgroundColor:COLORS.danger,
+        alignSelf:'flex-end',
+        marginRight:-10,
+        borderRadius:10,
     },
     city:{
         fontSize:24,

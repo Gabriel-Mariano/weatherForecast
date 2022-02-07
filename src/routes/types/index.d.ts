@@ -9,4 +9,16 @@ type StackProps = {
     };
 }
 
-export { StackProps };
+type IRouteProps = {
+    key:string,
+    name:string,
+    path?:string,
+    params:{
+        id:string;
+        title:string;
+        lat:number;
+        lon:number;
+    }
+}
+
+export { StackProps, IRouteProps };

@@ -1,30 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Alert, View } from 'react-native';
+import { ActivityIndicator, Alert, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { useRoute } from '@react-navigation/native';
-import { fetchOpenWeatherDaily } from '../../services/openWeatherApi';
+import { COLORS } from '../../themes/colors';
 import { styles } from './styles';
+
+import { useRoute } from '@react-navigation/native';
+import { IRouteProps } from '../../routes/types/index.d';
+import { fetchOpenWeatherDaily } from '../../services/openWeatherApi';
 
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 import moment from 'moment';
 import uuid from 'react-native-uuid';
 
-interface IRouteProps {
-    key:string,
-    name:string,
-    path?:string,
-    params:{
-        id:string;
-        title:string;
-        lat:number;
-        lon:number;
-    }
-}
-
 const DetailsScreen:React.FC = () => {
     const [dailyForecast, setDailyForecast] = useState([] as any);
+    const [isLoading, setIsLoading] = useState(false);
     const { params, name } = useRoute<IRouteProps>();
 
     moment.locale('pt-br')
@@ -55,7 +47,9 @@ const DetailsScreen:React.FC = () => {
     },[params.id]);
 
     const getDailyForecast = async () => {
+        setIsLoading(true);
         const res = await fetchOpenWeatherDaily(String(params.lat), String(params.lon));
+        setIsLoading(false);
 
         res.success
         ? successResponse(res.data) 
@@ -68,12 +62,15 @@ const DetailsScreen:React.FC = () => {
             const date = moment.unix(values.dt).format("DD-MM-YYYY");
             let day = moment.unix(values.dt).format("dddd");
 
-            if(date === moment(today).format("DD-MM-YYYY")){
-                day = 'Hoje'
+            const start = moment(date,"DD-MM-YYYY");
+            const end = moment(today,"DD-MM-YYYY");;
+
+            if(end.diff(start,'day') === 0){
+                day = 'Amanhã'
             }
 
-            if(moment(date).diff(1,'days')){
-                day = 'Amanhã'
+            if(date === moment(today).format("DD-MM-YYYY")){
+                day = 'Hoje'
             }
 
             return {
@@ -84,7 +81,6 @@ const DetailsScreen:React.FC = () => {
                 temperature:values.temp.day.toFixed(0),
                 temp_min:values.temp.min.toFixed(0),
                 temp_max:values.temp.max.toFixed(0),
-                
             }
         });
 
@@ -99,32 +95,39 @@ const DetailsScreen:React.FC = () => {
         <SafeAreaView style={styles.container}>
             <Header route={name} title={params.title}/>
             <View style={styles.body}>
-            <FlatList
-                data={dailyForecast}
-                showsVerticalScrollIndicator={false}
-                keyExtractor={(item) => item.id }
-                renderItem={({ item }) => {
-                    return (
-                        <Card 
-                            id={item.id}
-                            title={item.title}
-                            subtitle={item.subtitle}
-                            temperature={item.temperature}
-                            description={item.description}
-                            media={item.media}
-                            temp_min={item.temp_min}
-                            temp_max={item.temp_max}
-                            match={item.match}
-                            matchIsVisible={item.matchIsVisible}
-                            lat={item.lat}
-                            lng={item.lng}
-                            location={dailyForecast}
-                            setLocation={setDailyForecast}
-                            content={true}
-                        />
-                    );
-                }}
-            />
+                { isLoading
+                    ? <ActivityIndicator 
+                        size="large" 
+                        color={COLORS.primary} 
+                        style={styles.loading}
+                      />
+                    : <FlatList
+                        data={dailyForecast}
+                        showsVerticalScrollIndicator={false}
+                        keyExtractor={(item) => item.id }
+                        renderItem={({ item }) => {
+                            return (
+                                <Card 
+                                    id={item.id}
+                                    title={item.title}
+                                    subtitle={item.subtitle}
+                                    temperature={item.temperature}
+                                    description={item.description}
+                                    media={item.media}
+                                    temp_min={item.temp_min}
+                                    temp_max={item.temp_max}
+                                    match={item.match}
+                                    matchIsVisible={item.matchIsVisible}
+                                    lat={item.lat}
+                                    lng={item.lng}
+                                    location={dailyForecast}
+                                    setLocation={setDailyForecast}
+                                    content={true}
+                                />
+                            );
+                        }}
+                    />
+                }
             </View>
         </SafeAreaView>
     );

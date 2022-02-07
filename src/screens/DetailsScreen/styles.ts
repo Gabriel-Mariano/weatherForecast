@@ -9,5 +9,9 @@ export const styles = StyleSheet.create({
         width:'100%',
         paddingHorizontal:16,
         paddingVertical:16
+    },
+    loading:{
+        flex:1,
+        alignSelf:'center'
     }
 });

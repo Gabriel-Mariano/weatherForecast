@@ -6,6 +6,7 @@ interface ICardFooterProps {
     temp_min?:number;
     temp_max?:number;
     match?:boolean;
+    matchIsVisible?:boolean;
     location:[],
     setLocation:React.Dispatch<React.SetStateAction<ICardProps[]>>;
 }

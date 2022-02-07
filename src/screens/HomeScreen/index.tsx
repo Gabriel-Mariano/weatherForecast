@@ -79,6 +79,7 @@ const HomeScreen = () => {
                                 temp_min={item.temp_min}
                                 temp_max={item.temp_max}
                                 match={item.match}
+                                matchIsVisible={item.matchIsVisible}
                                 lat={item.lat}
                                 lng={item.lng}
                                 location={location}

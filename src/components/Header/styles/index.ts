@@ -9,6 +9,19 @@ export const styles = StyleSheet.create({
         
         justifyContent:'center',
         backgroundColor:COLORS.primary
+    },
+    wrapper:{
+        height:56,
+        flexDirection:'row',
+        alignItems:'center',
+    },
+    icon:{
+        padding:10,
+    },
+    title:{
+        color:COLORS.white,
+        fontSize:16,
+        marginLeft:20
     }
 });
 

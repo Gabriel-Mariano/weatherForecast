@@ -10,6 +10,7 @@ interface ICardProps {
     temp_min?:number;
     temp_max?:number;
     match?:boolean;
+    matchIsVisible?:boolean;
     content?:boolean;
     lat:string;
     lng:string;

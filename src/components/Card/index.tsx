@@ -21,6 +21,7 @@ const Card:React.FC<ICardProps> = props => {
         temp_min,
         temp_max,
         match,
+        matchIsVisible,
         content,
         lat,
         lng,
@@ -51,6 +52,7 @@ const Card:React.FC<ICardProps> = props => {
                     temp_min:data.main.temp_min.toFixed(0),
                     temp_max:data.main.temp_max.toFixed(0),
                     match:false,
+                    matchIsVisible:true,
                     content:true,
                 }
             });
@@ -128,7 +130,16 @@ const Card:React.FC<ICardProps> = props => {
     const renderCardFooter = () => {
         return !content
             ? <Button title="ADICIONAR" onPress={add}/>
-            : <CardFooter {...{description, temp_min, temp_max, match, location, setLocation, id } } />
+            : <CardFooter {...{
+                description, 
+                temp_min, 
+                temp_max, 
+                match, 
+                matchIsVisible,
+                location, 
+                setLocation, 
+                id 
+            } } />
     }
 
     const goToDetails = () => {
@@ -136,6 +147,7 @@ const Card:React.FC<ICardProps> = props => {
             ? null
             : navigation.navigate('Details', {
                 id:id,
+                title:title,
                 lat:lat,
                 lon:lng
             }); 

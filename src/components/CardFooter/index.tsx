@@ -7,7 +7,16 @@ import { styles } from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const CardFooter: React.FC<ICardFooterProps> = props => {
-    const { description, temp_min, temp_max, match, location, setLocation, id } = props;
+    const { 
+        description, 
+        temp_min, 
+        temp_max, 
+        match, 
+        matchIsVisible, 
+        location, 
+        setLocation, 
+        id 
+    } = props;
 
     const handleLiked = () => {
         const changeData = location.map((values: any) => {
@@ -18,6 +27,29 @@ const CardFooter: React.FC<ICardFooterProps> = props => {
 
         setLocation(changeData)
     }
+
+    const handleVisibilityMatch = () => {
+        return matchIsVisible
+            ? renderIcon()
+            : null
+    }
+
+    const renderIcon = () => {
+        return match
+            ? <Icon
+                name="heart"
+                size={30}
+                color={COLORS.danger}
+                onPress={handleLiked}
+              />
+            : <Icon
+                name="heart-outline"
+                size={30}
+                color={COLORS.danger}
+                onPress={handleLiked}
+              />
+    }
+
     return (
         <>
             <View>
@@ -29,20 +61,7 @@ const CardFooter: React.FC<ICardFooterProps> = props => {
                 </Text>
             </View>
             <View>
-                {match
-                    ? <Icon
-                        name="heart"
-                        size={30}
-                        color={COLORS.danger}
-                        onPress={handleLiked}
-                    />
-                    : <Icon
-                        name="heart-outline"
-                        size={30}
-                        color={COLORS.danger}
-                        onPress={handleLiked}
-                    />
-                }
+                {handleVisibilityMatch()}
             </View>
         </>
     );

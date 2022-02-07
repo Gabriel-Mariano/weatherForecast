@@ -15,9 +15,11 @@ export const fetchOpenWeather = async (lat: string, lon: string) => {
 
 export const fetchOpenWeatherDaily = async (lat: string, lon: string) => {
     try {
-        const { data } = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_KEY}&lang=pt&units=metric`);
-
         // const { data } = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_KEY}&lang=pt&units=metric`);
+
+        const { data } = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely,alerts&appid=${OPEN_WEATHER_KEY}&lang=pt&units=metric`);
+
+       
 
         return successObject(data);
 

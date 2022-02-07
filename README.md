@@ -15,7 +15,7 @@ Aplicativo de previsão do tempo
  - Com tudo instalado rode **yarn ios**
 
  # OBS Importante ⚠
- - Para consumir os dados é necessário substituir o arquivo .env.example para .env e colocar suas chaves de api.
+ - Para consumir os dados é necessário substituir o arquivo **.env.example** para **.env** e colocar suas chaves de api.
 
 ## Apis que Consumi na Construção do Projeto
 - [open-weathermap](https://openweathermap.org/api)

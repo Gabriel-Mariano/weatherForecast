@@ -48,7 +48,7 @@ function MyTabs() {
         screenOptions={{ 
             headerShown:false,
             tabBarStyle:{ 
-                height:60, 
+                height:Platform.OS === 'android'? 60 : 90,
                 alignItems:'center'
             },
             tabBarActiveTintColor:COLORS.primary,

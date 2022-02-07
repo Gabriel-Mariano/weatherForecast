@@ -8,10 +8,12 @@ import { styles } from './styles';
 import Header from '../../components/Header';
 import Card from '../../components/Card';
 import uuid from 'react-native-uuid';
+import { useLocation } from '../../hooks/useLocation';
 
 const HomeScreen = () => {
     const [address, setAddress] = useState('');
-    const [location, setLocation] = useState([] as any);
+    
+    const { location, setLocation } = useLocation();
 
     const getAddress = async ()=> {
         if(!address){
@@ -78,7 +80,6 @@ const HomeScreen = () => {
                         subtitle={item.subtitle}
                         temperature={item.temperature}
                         description={item.description}
-                        media={item.media}
                         temp_min={item.temp_min}
                         temp_max={item.temp_max}
                         match={item.match}
@@ -86,8 +87,6 @@ const HomeScreen = () => {
                         closeIsVisible={item.closeIsVisible}
                         lat={item.lat}
                         lng={item.lng}
-                        location={location}
-                        setLocation={setLocation}
                         content={item.content}
                     />
                 );

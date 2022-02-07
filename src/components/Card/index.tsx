@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackProps } from '../../routes/types';
 import { COLORS } from '../../themes/colors';
+import { useLocation } from '../../hooks/useLocation';
 
 const Card:React.FC<ICardProps> = props => {
     const { 
@@ -29,9 +30,9 @@ const Card:React.FC<ICardProps> = props => {
         content,
         lat,
         lng,
-        location,
-        setLocation
     } = props;
+
+    const { location, setLocation } = useLocation();
 
     const navigation = useNavigation<NativeStackNavigationProp<StackProps>>();
 
@@ -83,8 +84,6 @@ const Card:React.FC<ICardProps> = props => {
                 temp_max, 
                 match, 
                 matchIsVisible,
-                location, 
-                setLocation, 
                 id 
             } } />
     }

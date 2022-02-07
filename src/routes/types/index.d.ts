@@ -9,6 +9,11 @@ type StackProps = {
     };
 }
 
+type InitalRouteProps = {
+    Welcome:undefined;
+    Tabs:undefined;
+}
+
 type IRouteProps = {
     key:string,
     name:string,
@@ -21,4 +26,4 @@ type IRouteProps = {
     }
 }
 
-export { StackProps, IRouteProps };
+export { InitalRouteProps, StackProps, IRouteProps };

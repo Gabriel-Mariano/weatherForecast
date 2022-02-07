@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
         padding:2,
         backgroundColor:COLORS.danger,
         alignSelf:'flex-end',
-        marginRight:-10,
+        marginRight:-8,
         borderRadius:10,
     },
     city:{

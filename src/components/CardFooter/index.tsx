@@ -5,6 +5,7 @@ import { COLORS } from '../../themes/colors';
 import { styles } from './styles';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useLocation } from '../../hooks/useLocation';
 
 const CardFooter: React.FC<ICardFooterProps> = props => {
     const { 
@@ -12,11 +13,11 @@ const CardFooter: React.FC<ICardFooterProps> = props => {
         temp_min, 
         temp_max, 
         match, 
-        matchIsVisible, 
-        location, 
-        setLocation, 
+        matchIsVisible,  
         id 
     } = props;
+
+    const { location, setLocation } = useLocation();
 
     const handleLiked = () => {
         const changeData = location.map((values: any) => {

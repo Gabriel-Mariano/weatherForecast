@@ -4,15 +4,15 @@ import { View, Text, Image, Pressable } from 'react-native';
 import { styles } from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
-import { StackProps } from '../../routes/types';
+import { InitalRouteProps } from '../../routes/types';
 
 import Logo from '../../assets/logo.png';
 
 const WelcomeScreen:React.FC = () => {
-    const navigation = useNavigation<NativeStackNavigationProp<StackProps>>();
+    const navigation = useNavigation<NativeStackNavigationProp<InitalRouteProps>>();
 
     const goToHome = () => {
-        navigation.replace('Home');
+        navigation.replace('Tabs');
     }
 
     return (

@@ -1,12 +1,11 @@
-import React from "react";
+import React from 'react';
 
-interface ICardProps {
+interface ILocationProps {
     id:string;
     title:string;
     subtitle:string;
     temperature?:number;
     description?:string;
-    media?:number;
     temp_min?:number;
     temp_max?:number;
     match?:boolean;
@@ -17,4 +16,13 @@ interface ICardProps {
     lng:string;
 }
 
-export { ICardProps };
+interface ILocationContextValues {
+    location: ILocationProps[],
+    setLocation: React.Dispatch<React.SetStateAction<ILocationProps[]>>,
+}
+
+export { 
+    ILocationContextValues, 
+    ILocationProps
+};
+

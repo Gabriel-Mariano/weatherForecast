@@ -27,10 +27,10 @@ const WelcomeScreen:React.FC = () => {
                     Olá,
                 </Text>
                 <Text style={styles.description}>
-                    Seja-bem vindo ao app <Text style={styles.bold}>Weather Forecast.</Text>
+                    Seja-bem vindo ao app <Text style={styles.bold}>Weather Forecast.{`\n`}</Text>
                 </Text>
                 <Text style={styles.description}>
-                    Nosso aplicativo de previsão do tempo.
+                    Nosso aplicativo de previsão do tempo. Aqui você sempre estará informado.
                 </Text>
             </View>
             <Pressable 
@@ -38,7 +38,7 @@ const WelcomeScreen:React.FC = () => {
                 style={styles.button}
             >
                 <Text style={styles.textButton}>
-                    Próximo
+                    Entrar
                 </Text>
             </Pressable>
         </SafeAreaView>

@@ -1,29 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ActivityIndicator, Alert, Text, View } from 'react-native';
+import { View, Text } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { COLORS } from '../../themes/colors';
 import { styles } from './styles';
 
-import { useRoute } from '@react-navigation/native';
-import { IRouteProps } from '../../routes/types/index.d';
-import { fetchOpenWeatherDaily } from '../../services/openWeatherApi';
-
 import Card from '../../components/Card';
-import Header from '../../components/Header';
-import { useLocation } from '../../hooks/useLocation';
-import { ILocationProps } from '../../hooks/useLocation/index.d';
+
+import { useWeatherData } from '../../hooks/useWeatherData';
+import { IWeatherProps } from '../../hooks/useWeatherData/index.d';
 
 const FavoritesScreen: React.FC = () => {
-    const [favorites, setFavorites] = useState<ILocationProps[]>([]);
-    const { location, setLocation } = useLocation();
+    const [favorites, setFavorites] = useState<IWeatherProps[]>([]);
+    const { weatherData } = useWeatherData();
 
     useEffect(()=>{
         renderFavorites();
-    },[location]);
+    },[weatherData]);
 
     const renderFavorites = () => {
-        const filterFavorites = location.filter((values)=>
+        const filterFavorites = weatherData.filter((values)=>
             values.match
         );
         
@@ -69,11 +64,10 @@ const FavoritesScreen: React.FC = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.body}>
-            <Text style={styles.title}>
-                Lista de Favoritos
-            </Text>
-            { renderContent() }
-            
+                <Text style={styles.title}>
+                    Lista de Favoritos
+                </Text>
+                {renderContent()}
             </View>
         </SafeAreaView>
     );

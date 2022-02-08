@@ -3,17 +3,17 @@ import { View, Text, Keyboard, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
 import { fetchGooglePlace } from '../../services/googlePlaceApi';
+import { useWeatherData } from '../../hooks/useWeatherData';
 import { styles } from './styles';
 
 import Header from '../../components/Header';
 import Card from '../../components/Card';
 import uuid from 'react-native-uuid';
-import { useLocation } from '../../hooks/useLocation';
 
 const HomeScreen = () => {
     const [address, setAddress] = useState('');
     
-    const { location, setLocation } = useLocation();
+    const { weatherData, setWeatherData } = useWeatherData();
 
     const getAddress = async ()=> {
         if(!address){
@@ -28,7 +28,6 @@ const HomeScreen = () => {
     }
 
     const successResponse = (data:any) => {
-
         const changeData = data.candidates.map((items:any)=> {
             const country = items.formatted_address.split(',');
 
@@ -44,7 +43,7 @@ const HomeScreen = () => {
     
         const object = changeData.reduce( (obj:any, item:any) => item, {} );
 
-        setLocation([...location,object]);
+        setWeatherData([...weatherData,object]);
         setAddress('');
         Keyboard.dismiss();
     }
@@ -58,40 +57,40 @@ const HomeScreen = () => {
     }
 
     const renderContent = () => {
-        return !location.length 
-        ? <View style={styles.wrapper}>
-            <Text style={styles.title}>
-                Parece que você ainda não adicionou uma cidade
-            </Text>
-        
-            <Text style={styles.description}>
-                Tente adicionar uma cidade usando o botão de busca
-            </Text>
-          </View> 
-        : <FlatList
-            data={location}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => item.id }
-            renderItem={({ item }) => {
-                return (
-                    <Card 
-                        id={item.id}
-                        title={item.title}
-                        subtitle={item.subtitle}
-                        temperature={item.temperature}
-                        description={item.description}
-                        temp_min={item.temp_min}
-                        temp_max={item.temp_max}
-                        match={item.match}
-                        matchIsVisible={item.matchIsVisible}
-                        closeIsVisible={item.closeIsVisible}
-                        lat={item.lat}
-                        lng={item.lng}
-                        content={item.content}
-                    />
-                );
-            }}
-        />
+        return !weatherData.length 
+            ? <View style={styles.wrapper}>
+                    <Text style={styles.title}>
+                        Parece que você ainda não adicionou uma cidade
+                    </Text>
+                
+                    <Text style={styles.description}>
+                        Tente adicionar uma cidade usando o botão de busca
+                    </Text>
+              </View> 
+            : <FlatList
+                data={weatherData}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item) => item.id }
+                renderItem={({ item }) => {
+                    return (
+                        <Card 
+                            id={item.id}
+                            title={item.title}
+                            subtitle={item.subtitle}
+                            temperature={item.temperature}
+                            description={item.description}
+                            temp_min={item.temp_min}
+                            temp_max={item.temp_max}
+                            match={item.match}
+                            matchIsVisible={item.matchIsVisible}
+                            closeButtonIsVisible={item.closeButtonIsVisible}
+                            lat={item.lat}
+                            lng={item.lng}
+                            content={item.content}
+                        />
+                    );
+                }}
+            />
     }
 
     return (

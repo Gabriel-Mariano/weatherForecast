@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface ILocationProps {
+interface IWeatherProps {
     id:string;
     title:string;
     subtitle:string;
@@ -10,19 +10,19 @@ interface ILocationProps {
     temp_max?:number;
     match?:boolean;
     matchIsVisible?:boolean;
-    closeIsVisible?:boolean;
+    closeButtonIsVisible?:boolean;
     content?:boolean;
     lat:string;
     lng:string;
 }
 
-interface ILocationContextValues {
-    location: ILocationProps[],
-    setLocation: React.Dispatch<React.SetStateAction<ILocationProps[]>>,
+interface IWeatherContextValues {
+    weatherData: IWeatherProps[],
+    setWeatherData: React.Dispatch<React.SetStateAction<IWeatherProps[]>>,
 }
 
 export { 
-    ILocationContextValues, 
-    ILocationProps
+    IWeatherContextValues, 
+    IWeatherProps
 };
 

@@ -1,19 +1,17 @@
 import React from 'react';
 import { View, Text, Alert, Pressable } from 'react-native';
 import { ICardProps } from './types';
+import { COLORS } from '../../themes/colors';
 import { styles } from './styles';
+import { fetchOpenWeather } from '../../services/openWeatherApi';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { IRouteProps, StackProps } from '../../routes/types';
+import { useWeatherData } from '../../hooks/useWeatherData';
 
-import moment, { locale } from 'moment';
 import Button from '../Button';
 import CardFooter from '../CardFooter';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-import { fetchOpenWeather } from '../../services/openWeatherApi';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { StackProps } from '../../routes/types';
-import { COLORS } from '../../themes/colors';
-import { useLocation } from '../../hooks/useLocation';
 
 const Card:React.FC<ICardProps> = props => {
     const { 
@@ -26,13 +24,14 @@ const Card:React.FC<ICardProps> = props => {
         temp_max,
         match,
         matchIsVisible,
-        closeIsVisible,
+        closeButtonIsVisible,
         content,
         lat,
         lng,
     } = props;
 
-    const { location, setLocation } = useLocation();
+    const { weatherData, setWeatherData } = useWeatherData();
+    const { name } = useRoute<IRouteProps>();
 
     const navigation = useNavigation<NativeStackNavigationProp<StackProps>>();
 
@@ -40,13 +39,13 @@ const Card:React.FC<ICardProps> = props => {
         const res = await fetchOpenWeather(lat,lng);
 
         res.success
-        ?successResponse(res.data,id)
-        :failedResponse()
+        ? successResponse(res.data,id)
+        : failedResponse()
     }
 
     const successResponse = (data:any, id:string) => {
-
-            const changeData = location.map((values:any)=>{
+        
+            const changeData = weatherData.map((values)=>{
                 return values.id !== id
                 ? values
                 : {
@@ -58,21 +57,49 @@ const Card:React.FC<ICardProps> = props => {
                     temp_max:data.main.temp_max.toFixed(0),
                     match:false,
                     matchIsVisible:true,
-                    closeIsVisible:true,
+                    closeButtonIsVisible:true,
                     content:true,
                 }
             });
-
-    //     const newData = data.list.map((item:any)=> {
-    //         const today = new Date();
-    //         const formatDate = moment(today).locale('pt-br').format('DD-MM-YYYY');
-    //         const date = moment(item.dt_txt).locale('pt-br').format("DD-MM-YYYY");
         
-        setLocation(changeData);
+        setWeatherData(changeData);
     }
 
     const failedResponse = () => {
         Alert.alert('Opss..', 'Houve uma falha ao buscar dados, tente novamente mais tarde.')
+    }
+
+    const goToDetails = () => {
+        return content && name !== 'Details' 
+            ? navigation.navigate('Details', {
+                id:id,
+                title:title,
+                lat:lat,
+                lon:lng
+            })
+            :  null
+    }
+
+    const onCloseCard = () => {
+        const removeFilteredData = weatherData.filter((values)=> 
+            values.id !== id 
+        );
+
+        setWeatherData(removeFilteredData);
+    }
+
+    const renderCloseButton = () => {
+        return closeButtonIsVisible
+                ? <Pressable style={styles.buttonClose} onPress={onCloseCard}>
+                    <Icon name="close" size={14} color={COLORS.white}/>
+                  </Pressable>
+                : null
+    }
+
+    const renderInfoTemperature = () => {
+        return !content
+            ? null
+            : `${temperature}°`
     }
 
     const renderCardFooter = () => {
@@ -88,39 +115,17 @@ const Card:React.FC<ICardProps> = props => {
             } } />
     }
 
-    const goToDetails = () => {
-        return !content
-            ? null
-            : navigation.navigate('Details', {
-                id:id,
-                title:title,
-                lat:lat,
-                lon:lng
-            }); 
-    }
-
-    const onCloseCard = () => {
-        const changeData = location.filter((values:any)=> values.id !== id )
-
-        setLocation(changeData);
-    }
-
     return (
         <Pressable 
             onPress={goToDetails}
             style={[ styles.container,
                 {
-                    paddingVertical: closeIsVisible ? 4 : 15
+                    paddingVertical: closeButtonIsVisible ? 4 : 15
                 }
             ]}
         >   
-            { closeIsVisible
-                ? <Pressable style={styles.buttonClose} onPress={onCloseCard}>
-                    <Icon name="close" size={14} color={COLORS.white}/>
-                  </Pressable>
-                : null
-            }
-            
+            {renderCloseButton()}
+
             <View style={styles.cardHeader}>
                 <View>
                     <Text style={styles.city}>
@@ -132,11 +137,7 @@ const Card:React.FC<ICardProps> = props => {
                 </View>
                 <View>
                     <Text style={styles.temperature}>
-                        {
-                            !content
-                                ? null
-                                : `${temperature}°`
-                        }
+                        {renderInfoTemperature()}
                     </Text>
                 </View>
             </View>

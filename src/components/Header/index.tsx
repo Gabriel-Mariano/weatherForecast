@@ -20,7 +20,7 @@ const Header:React.FC<IHeaderProps> = props => {
         return route === 'Details'
             ? <View style={styles.wrapper}>
                 <Icon 
-                    name="arrow-back" 
+                    name="ios-chevron-back" 
                     size={18} 
                     color={COLORS.white} 
                     style={styles.icon}

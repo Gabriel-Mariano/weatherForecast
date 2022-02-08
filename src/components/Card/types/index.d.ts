@@ -11,7 +11,7 @@ interface ICardProps {
     temp_max?:number;
     match?:boolean;
     matchIsVisible?:boolean;
-    closeIsVisible?:boolean;
+    closeButtonIsVisible?:boolean;
     content?:boolean;
     lat:string;
     lng:string;

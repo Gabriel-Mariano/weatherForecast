@@ -14,12 +14,7 @@ import Header from '../../components/Header';
 import moment from 'moment';
 import uuid from 'react-native-uuid';
 
-const DetailsScreen: React.FC = () => {
-    const [dailyForecast, setDailyForecast] = useState([] as any);
-    const [isLoading, setIsLoading] = useState(false);
-    const { params, name } = useRoute<IRouteProps>();
-
-    moment.locale('pt-br')
+moment.locale('pt-br')
     moment.updateLocale('pt', {
         calendar: {
             sameDay: 'Hoje',
@@ -41,6 +36,11 @@ const DetailsScreen: React.FC = () => {
             "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
         ]
     });
+
+const DetailsScreen: React.FC = () => {
+    const [dailyForecast, setDailyForecast] = useState([] as any);
+    const [isLoading, setIsLoading] = useState(false);
+    const { params, name } = useRoute<IRouteProps>();
 
     useEffect(() => {
         getDailyForecast();
@@ -117,8 +117,6 @@ const DetailsScreen: React.FC = () => {
                             matchIsVisible={item.matchIsVisible}
                             lat={item.lat}
                             lng={item.lng}
-                            location={dailyForecast}
-                            setLocation={setDailyForecast}
                             content={true}
                         />
                     );

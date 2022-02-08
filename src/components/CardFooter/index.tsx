@@ -5,7 +5,7 @@ import { COLORS } from '../../themes/colors';
 import { styles } from './styles';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useLocation } from '../../hooks/useLocation';
+import { useWeatherData } from '../../hooks/useWeatherData';
 
 const CardFooter: React.FC<ICardFooterProps> = props => {
     const { 
@@ -17,16 +17,16 @@ const CardFooter: React.FC<ICardFooterProps> = props => {
         id 
     } = props;
 
-    const { location, setLocation } = useLocation();
+    const { weatherData, setWeatherData } = useWeatherData();
 
     const handleLiked = () => {
-        const changeData = location.map((values: any) => {
+        const changeData = weatherData.map((values: any) => {
             return values.id !== id
                 ? values
                 : { ...values, match: !match }
         });
 
-        setLocation(changeData)
+        setWeatherData(changeData)
     }
 
     const handleVisibilityMatch = () => {

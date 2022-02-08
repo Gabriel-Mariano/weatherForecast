@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     cardFooter:{
         flexDirection:'row',
         justifyContent:'space-between',
-        marginTop:5,
+        marginTop:12,
     },
     buttonClose:{
         padding:2,

@@ -2,7 +2,7 @@
 Aplicativo de previsão do tempo
 
 ## Visão Global
-
+![screens](https://github.com/Gabriel-Mariano/weatherForecast/blob/main/reduced%20cover.png)
 **Weather Forecast** é meu app de previsão do tempo. Foi necessário a utilização de algumas apis para consumir os dados e exibi-los em tela.
 
 
